@@ -5,6 +5,7 @@ import socket
 import sys
 import threading
 import signal
+import random
 
 PORT =      59481
 HOST =      '127.0.0.1'
@@ -106,7 +107,11 @@ class Client(threading.Thread):
                     self.client.send("Hello back")
 
                 elif data == 'Test':
-                    self.client.send("Test..1..2..3!")
+                    num_1 = str(random.randint(1, 99999))
+                    num_2 = str(random.randint(1, 10)).rjust(2, '0')
+                    unit = random.choice(['mW', 'W', 'KW', 'MW']);
+                    full =  "|".join([num_1, num_2, unit])
+                    self.client.send(full)
 
                 elif data == 'Done':
                     self.server.server_shutdown()

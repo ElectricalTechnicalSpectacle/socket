@@ -15,8 +15,12 @@ int main(int argc, char *argv[])
     init_connection();
     //monitor_connection();
     //register_signals
-    send_test();
-    recv_test();
+    for (int i = 0; i < 100; i++) {
+        send_test();
+        recv_test();
+        usleep(200000);
+    }
+
     exit(EXIT_SUCCESS);
 }
 
@@ -46,10 +50,10 @@ void init_connection()
 
 void send_test()
 {
-    char sendline[BUFF_SIZE];
+    char sendline[BUFF_SIZE] = "";
 
     printf("Sending data to the server...\n");
-    sprintf(sendline, "%s", "Hello");
+    sprintf(sendline, "%s", "Test");
     if (send(socket_fd, sendline, strlen(sendline), 0) == 0) {
         perror("Could not send data to server.");
         close(socket_fd);
@@ -61,7 +65,7 @@ void send_test()
 
 void recv_test()
 {
-    char recvline[BUFF_SIZE];
+    char recvline[BUFF_SIZE] = "";
 
     printf("Receiving data from the server...\n");
     if (recv(socket_fd, recvline, BUFF_SIZE, 0) == 0) {
