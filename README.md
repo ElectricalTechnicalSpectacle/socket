@@ -15,3 +15,8 @@ C (client)
 make
 ./client
 ```
+
+
+To compile client on beaglebone from existing object file, run:
+
+gcc -std=c99 -g -Wall -lpthread -pthread -o client client.o

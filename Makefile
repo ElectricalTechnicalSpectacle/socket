@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -std=c99 -g -Wall
-LDFLAGS = -lpthread
+LDFLAGS = -lpthread -pthread
 TARGET = client
 
 default: $(TARGET)
