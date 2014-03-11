@@ -6,6 +6,7 @@ import sys
 import threading
 import signal
 import random
+from time import sleep
 
 PORT =      59481
 HOST =      '127.0.0.1'
@@ -108,9 +109,37 @@ class Client(threading.Thread):
 
                 elif data == 'Test':
                     num_1 = str(random.randint(1, 99999))
-                    num_2 = str(random.randint(1, 10)).rjust(2, '0')
+                    num_2 = str(random.randint(1, 99)).rjust(2, '0')
                     unit = random.choice(['mW', 'W', 'KW', 'MW']);
                     full =  "|".join([num_1, num_2, unit])
+                    self.client.send(full)
+                    
+                elif data == 'get':
+                    #full = "empty";
+                    #self.client.send(full)
+                    readings = [];
+                    
+                    for x in range(0, 40):
+                        num_1_voltage = str(random.randint(1, 99999))
+                        num_2_voltage = str(random.randint(1, 99)).rjust(2, '0')
+                        unit_voltage = random.choice(['mV', 'V', 'KV', 'MV'])
+                        full_voltage =  ",".join([num_1_voltage, num_2_voltage, unit_voltage])
+
+                        num_1_current = str(random.randint(1, 99999))
+                        num_2_current = str(random.randint(1, 99)).rjust(2, '0')
+                        unit_current = random.choice(['mA', 'A', 'KA', 'MA'])
+                        full_current =  ",".join([num_1_current, num_2_current, unit_current])
+                        
+                        num_1_power = str(random.randint(1, 99999))
+                        num_2_power = str(random.randint(1, 99)).rjust(2, '0')
+                        unit_power = random.choice(['mW', 'W', 'KW', 'MW'])
+                        full_power =  ",".join([num_1_power, num_2_power, unit_power])
+                        
+                        full_reading = "&".join([full_voltage, full_current, full_power])
+                        readings.append(full_reading)
+                        
+                    full_readings = "~".join(readings)
+                    full = str(len(readings)) + "|" + full_readings;
                     self.client.send(full)
 
                 elif data == 'Done':
